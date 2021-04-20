@@ -14,7 +14,7 @@ route.post("/generate", isAuth, (req, res, next) => {
         Logger.info(JSON.stringify(req.headers));
         return res.json({ state: "success", promocode });
     } catch (err) {
-        return res.json({ state: "error" });
+        return res.json({ state: "error", error: "Error generation" });
     }
 });
 
