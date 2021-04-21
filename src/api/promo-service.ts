@@ -14,6 +14,10 @@ interface IGenerateBody {
     sale: string;
 }
 
+interface ICheckBody {
+    promocode: string;
+}
+
 route.post<any, IResponse<{ promocode: string }>, IGenerateBody>(
     "/generate",
     isAuth,
@@ -71,10 +75,44 @@ route.get<any, IResponse<{ promocode: PromoCodeEntity[] }>, IGenerateBody>(
 
             const promocode = await promocodeInstance.find({ userId });
 
+            Logger.info(`GET promocades by user: ${userId}`);
             return await res.json({
                 state: "success",
                 error: null,
                 value: { promocode },
+            });
+        } catch (err) {
+            return await res.json({
+                state: "error",
+                error: err,
+            });
+        }
+    },
+);
+
+route.post<any, IResponse, ICheckBody>(
+    "/check-code",
+    isAuth,
+    async (req, res, next) => {
+        try {
+            const promocode = req.body.promocode;
+
+            if (!promocode) {
+                throw new ErrorHandler(400, "param does not exist");
+            }
+
+            Logger.info(`check promocade: ${promocode}`);
+
+            const promocodeInstance = Container.get(PromoCodeService);
+
+            const code = await promocodeInstance.findOne({
+                where: { name: promocode },
+            });
+
+            return await res.json({
+                state: "success",
+                error: null,
+                value: { code },
             });
         } catch (err) {
             return await res.json({

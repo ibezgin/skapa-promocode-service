@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { FindManyOptions, MongoRepository } from "typeorm";
+import { FindManyOptions, FindOneOptions, MongoRepository } from "typeorm";
 import { validate } from "class-validator";
 import { ErrorHandler } from "../helper/error-handler";
 import { log } from "winston";
@@ -67,8 +67,10 @@ export class CRUD<Entity> {
         throw new ErrorHandler(404, "Not found");
     }
 
-    async findOne(id: string): Promise<Entity | undefined> {
-        const entity = await this.repo.findOne(id);
+    async findOne(
+        options: string | FindOneOptions<Entity>,
+    ): Promise<Entity | undefined> {
+        const entity = await this.repo.findOne(options);
         if (entity) {
             return entity;
         }
