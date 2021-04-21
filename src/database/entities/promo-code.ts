@@ -1,4 +1,4 @@
-import { IsNumberString, IsString } from "class-validator";
+import { IsString } from "class-validator";
 import { Column, Entity, Index, ObjectID, ObjectIdColumn } from "typeorm";
 
 @Entity()
@@ -12,7 +12,10 @@ export class PromoCodeEntity {
     name?: string;
 
     @Column()
-    @IsNumberString()
+    @IsString()
+    userId?: string;
+
+    @Column()
     sale?: string;
 
     @Column()
@@ -21,8 +24,9 @@ export class PromoCodeEntity {
     public constructor(data?: PromoCodeEntity) {
         if (data) {
             this.name = data.name;
-            this.sale = data.createdAt;
+            this.sale = data.sale;
             this.createdAt = data.createdAt;
+            this.userId = data.userId;
         }
     }
 }

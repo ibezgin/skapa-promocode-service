@@ -10,5 +10,6 @@ export const config = {
     port: 8080,
     databaseUrl,
     endpointPrefix: process.env.ENDPOINT_PREFIX || "api",
-    secret: process.env.SECRET || "rxxWTVEA",
+    secret:
+        process.env.SECRET || "WxW0NZBes2BO0RizsjUgj2snooPj3G8KDJm5gTD04gy1wsw",
 };

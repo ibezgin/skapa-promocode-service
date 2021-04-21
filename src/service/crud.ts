@@ -1,7 +1,8 @@
 import { Service } from "typedi";
-import { MongoRepository } from "typeorm";
+import { FindManyOptions, MongoRepository } from "typeorm";
 import { validate } from "class-validator";
 import { ErrorHandler } from "../helper/error-handler";
+import { log } from "winston";
 
 @Service()
 export class CRUD<Entity> {
@@ -36,6 +37,8 @@ export class CRUD<Entity> {
         const errors = await validate(entity, {
             validationError: { target: false },
         });
+
+        console.log(entity);
         const foundEntity =
             identifier &&
             (await this.repo.findOne({
@@ -46,13 +49,18 @@ export class CRUD<Entity> {
                 400,
                 `The ${entity.constructor.name} already exists`,
             );
+        console.log(errors);
+
+        console.log(await this.repo.save(entity));
 
         if (errors.length > 0) throw errors;
         return await this.repo.save(entity);
     }
 
-    async find(): Promise<Entity[]> {
-        const entities = await this.repo.find();
+    async find(
+        optionsOrConditions?: Partial<Entity> | FindManyOptions<Entity>,
+    ): Promise<Entity[]> {
+        const entities = await this.repo.find(optionsOrConditions);
         if (entities) {
             return entities;
         }

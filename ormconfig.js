@@ -2,24 +2,24 @@
 const config =
     process.env.NODE_ENV === "production"
         ? require("./dist/config").default
-        : require("./src/config/index");
-// const config = require("./src/config/index");
+        : require("./src/config").config;
+
 const srcConfig = {
     type: "mongodb",
-    url: config.databaseURL,
+    url: config.databaseUrl,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     synchronize: true,
     logging: false,
-    entities: ["src/database/entities/**/*.ts"],
+    entities: ["./src/database/entities/**/*.ts"],
     cli: {
-        entitiesDir: "src/database/entities",
+        entitiesDir: "./src/database/entities",
     },
 };
 
 const distConfig = {
     type: "mongodb",
-    url: config.databaseURL,
+    url: config.databaseUrl,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     synchronize: false,
