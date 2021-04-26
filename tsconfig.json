@@ -12,7 +12,9 @@
     "outDir": "dist",
     "allowJs": true, 
     "baseUrl": ".",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+
   }, 
   "include": ["./src/**/*"], 
   "exclude": ["node_modules"] 

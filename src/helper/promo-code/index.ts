@@ -1,6 +1,5 @@
 import { Logger } from "../../logger";
 import voucher_codes from "voucher-code-generator";
-import { log } from "winston";
 
 export class PromoCodeHelper {
     public generate(count = 1, length = 8) {
