@@ -1,5 +1,3 @@
-**/node_modules
-**/public
-src/frontend/config/env.js
-**/build
-*.d.ts
+node_modules
+dist
+commands
