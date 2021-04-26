@@ -4,6 +4,8 @@
     "description": "promocode service for shop and game",
     "main": "index.js",
     "scripts": {
+        "start": "node dist/app.js",
+        "build": "tsc -p .",
         "dev": "nodemon -V --exec ts-node src/app.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },

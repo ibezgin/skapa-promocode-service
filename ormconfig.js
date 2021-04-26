@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const config =
     process.env.NODE_ENV === "production"
-        ? require("./dist/config").default
-        : require("./src/config").config;
+        ? require("./dist/config").config
+        : require("./dist/config").config;
 
 const srcConfig = {
     type: "mongodb",
