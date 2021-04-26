@@ -2,7 +2,6 @@ import { Service } from "typedi";
 import { FindManyOptions, FindOneOptions, MongoRepository } from "typeorm";
 import { validate } from "class-validator";
 import { ErrorHandler } from "../helper/error-handler";
-import { log } from "winston";
 
 @Service()
 export class CRUD<Entity> {
