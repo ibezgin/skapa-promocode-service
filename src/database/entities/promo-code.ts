@@ -1,7 +1,7 @@
 import { IsString } from "class-validator";
 import { Column, Entity, Index, ObjectID, ObjectIdColumn } from "typeorm";
 
-@Entity()
+@Entity("promocode")
 export class PromoCodeEntity {
     @ObjectIdColumn()
     id?: ObjectID;
