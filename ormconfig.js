@@ -2,7 +2,7 @@
 const config =
     process.env.NODE_ENV === "production"
         ? require("./dist/config").config
-        : require("./dist/config").config;
+        : require("./src/config").config;
 
 const srcConfig = {
     type: "mongodb",
@@ -24,9 +24,9 @@ const distConfig = {
     useUnifiedTopology: true,
     synchronize: false,
     logging: false,
-    entities: ["dist/api/entities/**/*.js"],
+    entities: ["./dist/database/entities/**/*.ts"],
     cli: {
-        entitiesDir: "dist/api/entities",
+        entitiesDir: "./dist/database/entities",
     },
 };
 
