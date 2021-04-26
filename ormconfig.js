@@ -24,7 +24,7 @@ const distConfig = {
     useUnifiedTopology: true,
     synchronize: false,
     logging: false,
-    entities: ["./dist/database/entities/**/*.ts"],
+    entities: ["./dist/database/entities/**/*.js"],
     cli: {
         entitiesDir: "./dist/database/entities",
     },
