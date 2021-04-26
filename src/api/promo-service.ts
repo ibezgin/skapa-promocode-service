@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { isAuth } from "../middleware/check-auth";
 import { Logger } from "../logger";
 import { PromoCodeService } from "../service/promo-code";
 import { PromoCodeEntity } from "../database/entities/promo-code";
@@ -20,7 +19,6 @@ interface ICheckBody {
 
 route.post<any, IResponse<{ promocode: string }>, IGenerateBody>(
     "/generate",
-    isAuth,
     async (req, res, next) => {
         const { userId, sale } = req.body;
 
@@ -62,7 +60,6 @@ route.post<any, IResponse<{ promocode: string }>, IGenerateBody>(
 
 route.get<any, IResponse<{ promocode: PromoCodeEntity[] }>, IGenerateBody>(
     "/:userId",
-    isAuth,
     async (req, res, next) => {
         try {
             const userId = req.params.userId;
@@ -92,7 +89,6 @@ route.get<any, IResponse<{ promocode: PromoCodeEntity[] }>, IGenerateBody>(
 
 route.post<any, IResponse, ICheckBody>(
     "/check-code",
-    isAuth,
     async (req, res, next) => {
         try {
             const promocode = req.body.promocode;
