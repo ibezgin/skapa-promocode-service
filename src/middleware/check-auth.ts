@@ -12,6 +12,6 @@ export const isAuth = async <T>(
     if (apiKey === config.secret) {
         next();
     } else {
-        return res.status(401).send({ error: "Invalid Token" });
+        return res.status(401).send();
     }
 };
