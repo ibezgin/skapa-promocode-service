@@ -17,7 +17,7 @@ interface ICheckBody {
     promocode: string;
 }
 
-route.post<any, IResponse<{ promocode: string }>, IGenerateBody>(
+route.post<any, IResponse<string>, IGenerateBody>(
     "/generate",
     async (req, res, next) => {
         const { userId, sale } = req.body;
@@ -47,7 +47,7 @@ route.post<any, IResponse<{ promocode: string }>, IGenerateBody>(
             return await res.json({
                 state: "success",
                 error: null,
-                value: { promocode: promoCode.name },
+                value: promoCode.name,
             });
         } catch (err) {
             return await res.json({
@@ -58,7 +58,7 @@ route.post<any, IResponse<{ promocode: string }>, IGenerateBody>(
     },
 );
 
-route.get<any, IResponse<{ promocode: PromoCodeEntity[] }>, IGenerateBody>(
+route.get<any, IResponse<PromoCodeEntity[]>, IGenerateBody>(
     "/:userId",
     async (req, res, next) => {
         try {
@@ -76,7 +76,7 @@ route.get<any, IResponse<{ promocode: PromoCodeEntity[] }>, IGenerateBody>(
             return await res.json({
                 state: "success",
                 error: null,
-                value: { promocode },
+                value: promocode,
             });
         } catch (err) {
             return await res.json({
@@ -87,7 +87,7 @@ route.get<any, IResponse<{ promocode: PromoCodeEntity[] }>, IGenerateBody>(
     },
 );
 
-route.post<any, IResponse, ICheckBody>(
+route.post<any, IResponse<PromoCodeEntity>, ICheckBody>(
     "/check-code",
     async (req, res, next) => {
         try {
@@ -108,7 +108,7 @@ route.post<any, IResponse, ICheckBody>(
             return await res.json({
                 state: "success",
                 error: null,
-                value: { code },
+                value: code,
             });
         } catch (err) {
             return await res.json({
