@@ -40,6 +40,7 @@ route.post<any, IResponse<string>, IGenerateBody>(
             }
 
             const promoCode = await promocodeInstance.generate(userId, sale);
+
             Logger.info(
                 `generate new promocode: ${promoCode.name} by user: ${userId}`,
             );
@@ -70,9 +71,10 @@ route.get<any, IResponse<PromoCodeEntity[]>, IGenerateBody>(
 
             const promocodeInstance = Container.get(PromoCodeService);
 
-            const promocode = await promocodeInstance.find({ userId });
+            const promocode = await promocodeInstance.findByUserId(userId);
 
             Logger.info(`GET promocades by user: ${userId}`);
+
             return await res.json({
                 state: "success",
                 error: null,
@@ -101,9 +103,9 @@ route.post<any, IResponse<PromoCodeEntity>, ICheckBody>(
 
             const promocodeInstance = Container.get(PromoCodeService);
 
-            const code = await promocodeInstance.findOne({
-                where: { name: promocode },
-            });
+            const code = await promocodeInstance.findByName(promocode);
+
+            promocodeInstance.delete(String(code.id));
 
             return await res.json({
                 state: "success",
