@@ -9,7 +9,7 @@ const startServer = async () => {
         process.env.HEROKU_APP_NAME
             ? process.env.HEROKU_APP_NAME
             : "skapa-promocode.herokuapp.com",
-        { verbose: true, interval: 20000 },
+        { verbose: true },
     );
 
     Logger.info(`hsp: ${isHsp}`);
