@@ -76,7 +76,15 @@ export class CRUD<Entity> {
         throw new ErrorHandler(404, "Not found");
     }
 
-    async delete(id: string): Promise<void> {
-        await this.repo.delete(id);
+    async delete(id: string): Promise<boolean> {
+        const isDeleted = await this.repo.delete(id);
+        return Boolean(isDeleted);
+    }
+    async findAndCount(
+        optionsOrConditions?: Partial<Entity> | FindManyOptions<Entity>,
+    ) {
+        const entities = await this.repo.findAndCount(optionsOrConditions);
+
+        return entities;
     }
 }

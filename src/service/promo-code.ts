@@ -45,4 +45,21 @@ export class PromoCodeService extends CRUD<PromoCodeEntity> {
 
         return code;
     }
+
+    public async findByPaginate(count: number, offset: number) {
+        const take = count || 10;
+        const skip = offset || 0;
+
+        const [result, total] = await super.findAndCount({
+            order: { name: "DESC" },
+            take: take,
+            skip: skip,
+        });
+
+        return {
+            data: result,
+            count: total,
+        };
+        super.findAndCount();
+    }
 }
