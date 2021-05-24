@@ -28,14 +28,10 @@ export class PromoCodeService extends CRUD<PromoCodeEntity> {
         const code = await super.create({
             name: generatePromocode,
             sale,
-            userId,
+            creator: "game-client",
             createdAt,
         });
         return code;
-    }
-
-    public async findByUserId(userId: string) {
-        return await super.find({ userId });
     }
 
     public async findByName(name: string) {

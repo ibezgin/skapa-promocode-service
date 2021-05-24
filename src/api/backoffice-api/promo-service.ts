@@ -53,27 +53,26 @@ route.get<any, IResponse<IGetAllResponse>, any, IGetAllParams>(
     },
 );
 
-route.post<any, IResponse<IGetAllResponse>, any, IGetAllParams>(
+route.post<any, IResponse<boolean>, PromoCodeEntity>(
     "/add",
     async (req, res, next) => {
-        const { count, offset } = req.query;
+        const { name, sale, creator } = req.body;
 
         try {
             const promocodeInstance = Container.get(PromoCodeService);
 
-            const promoCode = await promocodeInstance.findByPaginate(
-                Number(count),
-                Number(offset),
-            );
+            const promoCode = await promocodeInstance.create({
+                name,
+                sale,
+                creator,
+            });
 
-            Logger.info(
-                `find all promo-code with params count: ${count}, offset: ${offset}`,
-            );
+            Logger.info(`create new promocode with id: ${promoCode.id}`);
 
             return await res.json({
                 state: "success",
                 error: null,
-                value: promoCode,
+                value: true,
             });
         } catch (err) {
             return await res.json({
@@ -110,34 +109,34 @@ route.delete<IDeleteParam, IResponse<boolean>>(
     },
 );
 
-route.patch<any, IResponse<IGetAllResponse>, any, IGetAllParams>(
-    "/update",
-    async (req, res, next) => {
-        const { count, offset } = req.query;
+// route.patch<{ id: string }, IResponse<boolean>, any, IGetAllParams>(
+//     "/update/:id",
+//     async (req, res, next) => {
+//         const { count, offset } = req.query;
 
-        try {
-            const promocodeInstance = Container.get(PromoCodeService);
+//         try {
+//             const promocodeInstance = Container.get(PromoCodeService);
 
-            const promoCode = await promocodeInstance.findByPaginate(
-                Number(count),
-                Number(offset),
-            );
+//             const promoCode = await promocodeInstance.findByPaginate(
+//                 Number(count),
+//                 Number(offset),
+//             );
 
-            Logger.info(
-                `find all promo-code with params count: ${count}, offset: ${offset}`,
-            );
+//             Logger.info(
+//                 `find all promo-code with params count: ${count}, offset: ${offset}`,
+//             );
 
-            return await res.json({
-                state: "success",
-                error: null,
-                value: promoCode,
-            });
-        } catch (err) {
-            return await res.json({
-                state: "error",
-                error: err,
-            });
-        }
-    },
-);
+//             return await res.json({
+//                 state: "success",
+//                 error: null,
+//                 value: promoCode,
+//             });
+//         } catch (err) {
+//             return await res.json({
+//                 state: "error",
+//                 error: err,
+//             });
+//         }
+//     },
+// );
 export const promoCodeServiceRouter = route;

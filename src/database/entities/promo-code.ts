@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsBoolean, IsString } from "class-validator";
 import { Column, Entity, Index, ObjectID, ObjectIdColumn } from "typeorm";
 
 @Entity("promocode")
@@ -12,21 +12,26 @@ export class PromoCodeEntity {
     name?: string;
 
     @Column()
-    @IsString()
-    userId?: string;
-
-    @Column()
     sale?: string;
 
     @Column()
     createdAt?: string = new Date().toISOString();
+
+    @Column()
+    @IsString()
+    creator?: string;
+
+    @Column()
+    @IsBoolean()
+    used?: boolean;
 
     public constructor(data?: PromoCodeEntity) {
         if (data) {
             this.name = data.name;
             this.sale = data.sale;
             this.createdAt = data.createdAt;
-            this.userId = data.userId;
+            this.creator = data.creator;
+            this.used = data.used;
         }
     }
 }
