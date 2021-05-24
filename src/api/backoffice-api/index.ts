@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { promoCodeServiceRouter } from "./promo-service";
+import { promoCodeServiceRouter } from "./promo-code";
 
 const router = Router();
 
