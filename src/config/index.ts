@@ -6,7 +6,7 @@ dotenv.config();
 
 let databaseUrl = process.env.MONGODB_URI;
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 export const config = {
     port,

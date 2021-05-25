@@ -56,7 +56,7 @@ route.get<any, IResponse<IGetAllResponse>, any, IGetAllParams>(
 route.post<any, IResponse<boolean>, PromoCodeEntity>(
     "/add",
     async (req, res, next) => {
-        const { name, sale, creator } = req.body;
+        const { name, sale, adminId, QRCodeId } = req.body;
 
         try {
             const promocodeInstance = Container.get(PromoCodeService);
@@ -64,7 +64,8 @@ route.post<any, IResponse<boolean>, PromoCodeEntity>(
             const promoCode = await promocodeInstance.create({
                 name,
                 sale,
-                creator,
+                adminId,
+                QRCodeId,
             });
 
             Logger.info(`create new promocode with id: ${promoCode.id}`);

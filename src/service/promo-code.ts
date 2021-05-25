@@ -28,7 +28,7 @@ export class PromoCodeService extends CRUD<PromoCodeEntity> {
         const code = await super.create({
             name: generatePromocode,
             sale,
-            creator: "game-client",
+            adminId: "game-client",
             createdAt,
         });
         return code;

@@ -19,19 +19,24 @@ export class PromoCodeEntity {
 
     @Column()
     @IsString()
-    creator?: string;
+    adminId?: string;
 
     @Column()
     @IsBoolean()
     used?: boolean;
+
+    @Column()
+    @IsString()
+    QRCodeId?: string;
 
     public constructor(data?: PromoCodeEntity) {
         if (data) {
             this.name = data.name;
             this.sale = data.sale;
             this.createdAt = data.createdAt;
-            this.creator = data.creator;
+            this.adminId = data.adminId;
             this.used = data.used;
+            this.QRCodeId = data.QRCodeId;
         }
     }
 }
