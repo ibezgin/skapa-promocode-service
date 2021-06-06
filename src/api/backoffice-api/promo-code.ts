@@ -4,6 +4,7 @@ import { PromoCodeService } from "../../service/promo-code";
 import { IResponse } from "src/types/global";
 import { Container } from "typedi";
 import { PromoCodeEntity } from "src/database/entities/promo-code";
+import { ErrorHandler } from "../../helper/error-handler";
 
 const route = Router();
 
@@ -57,6 +58,22 @@ route.post<any, IResponse<boolean>, PromoCodeEntity>(
     "/add",
     async (req, res, next) => {
         const { name, sale, adminId, QRCodeId } = req.body;
+
+        if (!name) {
+            throw new ErrorHandler(400, `name does not exist`);
+        }
+
+        if (!sale) {
+            throw new ErrorHandler(400, `sale does not exist`);
+        }
+
+        if (!adminId) {
+            throw new ErrorHandler(400, `adminId does not exist`);
+        }
+
+        if (!QRCodeId) {
+            throw new ErrorHandler(400, `QRCodeId does not exist`);
+        }
 
         try {
             const promocodeInstance = Container.get(PromoCodeService);

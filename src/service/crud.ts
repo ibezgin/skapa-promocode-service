@@ -1,5 +1,10 @@
 import { Service } from "typedi";
-import { FindManyOptions, FindOneOptions, MongoRepository } from "typeorm";
+import {
+    FindManyOptions,
+    FindOneOptions,
+    MongoRepository,
+    ObjectID,
+} from "typeorm";
 import { validate } from "class-validator";
 import { ErrorHandler } from "../helper/error-handler";
 
@@ -80,11 +85,17 @@ export class CRUD<Entity> {
         const isDeleted = await this.repo.delete(id);
         return Boolean(isDeleted);
     }
+
     async findAndCount(
         optionsOrConditions?: Partial<Entity> | FindManyOptions<Entity>,
     ) {
-        const entities = await this.repo.findAndCount(optionsOrConditions);
+        return await this.repo.findAndCount(optionsOrConditions);
+    }
 
-        return entities;
+    async updateOne(id, updateOptions: any) {
+        return await this.repo.updateOne(
+            { id: new ObjectID(id) },
+            updateOptions,
+        );
     }
 }
