@@ -10,7 +10,6 @@ const route = Router();
 
 interface IGetAllParams {
     count: number;
-
     offset: number;
 }
 
