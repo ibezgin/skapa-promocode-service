@@ -127,34 +127,39 @@ route.delete<IDeleteParam, IResponse<boolean>>(
     },
 );
 
-// route.patch<{ id: string }, IResponse<boolean>, any, IGetAllParams>(
-//     "/update/:id",
-//     async (req, res, next) => {
-//         const { count, offset } = req.query;
+route.patch<
+    { id: string },
+    IResponse<boolean>,
+    { sale: number; name: string; QRCodeId: string },
+    any
+>("/update/:id", async (req, res, next) => {
+    const { id } = req.params;
 
-//         try {
-//             const promocodeInstance = Container.get(PromoCodeService);
+    const { sale, name, QRCodeId } = req.body;
 
-//             const promoCode = await promocodeInstance.findByPaginate(
-//                 Number(count),
-//                 Number(offset),
-//             );
+    try {
+        const promocodeInstance = Container.get(PromoCodeService);
 
-//             Logger.info(
-//                 `find all promo-code with params count: ${count}, offset: ${offset}`,
-//             );
+        const promoCode = await promocodeInstance.updateOne(id, {
+            sale,
+            name,
+            QRCodeId,
+        });
 
-//             return await res.json({
-//                 state: "success",
-//                 error: null,
-//                 value: promoCode,
-//             });
-//         } catch (err) {
-//             return await res.json({
-//                 state: "error",
-//                 error: err,
-//             });
-//         }
-//     },
-// );
+        Logger.info(
+            `update promocode id: ${id}, params: ${JSON.stringify(req.body)}`,
+        );
+
+        return await res.json({
+            state: "success",
+            error: null,
+            value: Boolean(promoCode),
+        });
+    } catch (err) {
+        return await res.json({
+            state: "error",
+            error: err,
+        });
+    }
+});
 export const promoCodeServiceRouter = route;

@@ -56,6 +56,5 @@ export class PromoCodeService extends CRUD<PromoCodeEntity> {
             data: result,
             count: total,
         };
-        super.findAndCount();
     }
 }
