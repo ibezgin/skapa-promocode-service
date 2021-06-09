@@ -47,7 +47,7 @@ export class PromoCodeService extends CRUD<PromoCodeEntity> {
         const skip = offset || 0;
 
         const [result, total] = await super.findAndCount({
-            order: { name: "DESC" },
+            order: { createdAt: "DESC" },
             take: take,
             skip: skip,
         });

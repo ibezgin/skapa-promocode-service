@@ -5,6 +5,7 @@ import { IResponse } from "src/types/global";
 import { Container } from "typedi";
 import { PromoCodeEntity } from "src/database/entities/promo-code";
 import { ErrorHandler } from "../../helper/error-handler";
+import moment from "moment";
 
 const route = Router();
 
@@ -77,11 +78,14 @@ route.post<any, IResponse<boolean>, PromoCodeEntity>(
         try {
             const promocodeInstance = Container.get(PromoCodeService);
 
+            const createdAt = moment.utc().format("X");
+
             const promoCode = await promocodeInstance.create({
                 name,
                 sale,
                 adminId,
                 QRCodeId,
+                createdAt,
             });
 
             Logger.info(`create new promocode with id: ${promoCode.id}`);
