@@ -133,20 +133,21 @@ route.delete<IDeleteParam, IResponse<boolean>>(
 route.patch<
     { id: string },
     IResponse<boolean>,
-    { sale: number; name: string; QRCodeId: string },
+    { sale: number; name: string; QRCodeId: string; adminId: string },
     any
 >("/update/:id", async (req, res, next) => {
     const { id } = req.params;
 
-    const { sale, name, QRCodeId } = req.body;
+    const { sale, name, QRCodeId, adminId } = req.body;
 
     try {
         const promocodeInstance = Container.get(PromoCodeService);
 
-        const promoCode = await promocodeInstance.updateOne(id, {
+        const promoCode = await promocodeInstance.update(id, {
             sale,
             name,
             QRCodeId,
+            adminId,
         });
 
         Logger.info(

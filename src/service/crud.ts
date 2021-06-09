@@ -1,10 +1,5 @@
 import { Service } from "typedi";
-import {
-    FindManyOptions,
-    FindOneOptions,
-    MongoRepository,
-    ObjectID,
-} from "typeorm";
+import { FindManyOptions, FindOneOptions, MongoRepository } from "typeorm";
 import { validate } from "class-validator";
 import { ErrorHandler } from "../helper/error-handler";
 
@@ -92,10 +87,7 @@ export class CRUD<Entity> {
         return await this.repo.findAndCount(optionsOrConditions);
     }
 
-    async updateOne(id, updateOptions: any) {
-        return await this.repo.updateOne(
-            { id: new ObjectID(id) },
-            updateOptions,
-        );
+    async update(id, updateOptions: any) {
+        return await this.repo.update(id, updateOptions);
     }
 }
