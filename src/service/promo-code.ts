@@ -15,10 +15,7 @@ export class PromoCodeService extends CRUD<PromoCodeEntity> {
         super(promoCodeRepo);
     }
 
-    public async generate(
-        userId: string,
-        sale: string,
-    ): Promise<PromoCodeEntity> {
+    public async generate(sale: string): Promise<PromoCodeEntity> {
         const generated = this.helper.promoCode.generate();
 
         const generatePromocode = generated[0];
