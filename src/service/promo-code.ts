@@ -57,4 +57,8 @@ export class PromoCodeService extends CRUD<PromoCodeEntity> {
             count: total,
         };
     }
+
+    public async findByQrCode(qr: string) {
+        return super.find({ QRCodeId: qr });
+    }
 }
