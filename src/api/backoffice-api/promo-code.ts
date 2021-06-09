@@ -140,6 +140,22 @@ route.patch<
 
     const { sale, name, QRCodeId, adminId } = req.body;
 
+    if (!name) {
+        throw new ErrorHandler(400, `name does not exist`);
+    }
+
+    if (!sale) {
+        throw new ErrorHandler(400, `sale does not exist`);
+    }
+
+    if (!adminId) {
+        throw new ErrorHandler(400, `adminId does not exist`);
+    }
+
+    if (!QRCodeId) {
+        throw new ErrorHandler(400, `QRCodeId does not exist`);
+    }
+
     try {
         const promocodeInstance = Container.get(PromoCodeService);
 
