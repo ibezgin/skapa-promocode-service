@@ -104,6 +104,49 @@ route.post<any, IResponse<boolean>, PromoCodeEntity>(
     },
 );
 
+route.post<any, IResponse<boolean>, { promoCodes: PromoCodeEntity[] }>(
+    "/add-many",
+    async (req, res, next) => {
+        const { promoCodes } = req.body;
+
+        let ids: string[] = [];
+
+        if (!promoCodes && Boolean(promoCodes.length)) {
+            throw new ErrorHandler(400, `promo codes does not exist`);
+        }
+
+        try {
+            const promocodeInstance = Container.get(PromoCodeService);
+
+            const createdAt = moment.utc().format("X");
+
+            for (const promoCode of promoCodes) {
+                const _promoCode = await promocodeInstance.create({
+                    name: promoCode.name,
+                    sale: promoCode.sale,
+                    adminId: promoCode.adminId,
+                    QRCodeId: promoCode.QRCodeId,
+                    createdAt,
+                });
+                ids.push(String(_promoCode.id));
+            }
+
+            Logger.info(`create new promocodes with ids: ${ids.join()}`);
+
+            return await res.json({
+                state: "success",
+                error: null,
+                value: true,
+            });
+        } catch (err) {
+            return await res.json({
+                state: "error",
+                error: err,
+            });
+        }
+    },
+);
+
 route.delete<IDeleteParam, IResponse<boolean>>(
     "/delete/:id",
     async (req, res, next) => {
