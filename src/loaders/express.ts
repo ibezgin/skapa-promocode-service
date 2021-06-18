@@ -4,15 +4,15 @@ import helmet from "helmet";
 import bodyParser from "body-parser";
 import { config } from "../config";
 import { apiRoutes } from "../api/index";
-import { isAuth } from "../middleware/check-auth";
+// import { isAuth } from "../middleware/check-auth";
 import { ValidationError } from "class-validator";
 import { isCelebrateError } from "celebrate";
 import { ErrorHandler, handleError } from "../helper/error-handler";
 import { Logger } from "../logger";
 
 export const expressLoader = (app: Application): void => {
-    //Auth api key check
-    app.use(isAuth);
+    // //Auth api key check
+    // app.use(isAuth);
 
     // Health Check endpoints
     app.get("/status", (req, res) => {
