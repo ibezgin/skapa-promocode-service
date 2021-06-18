@@ -3,6 +3,6 @@ import { tokenServiceRouter } from "./token";
 
 const router = Router();
 
-router.use("/identity-api", tokenServiceRouter);
+router.use("/token", tokenServiceRouter);
 
 export const identityApi = router;

@@ -4,6 +4,7 @@ import { backofficeApi } from "./backoffice-api";
 import { gameApi } from "./game-api";
 import { siteApi } from "./site-api";
 import { config } from "../config/index";
+import { identityApi } from "./identity-api";
 
 const routes = Router();
 
@@ -48,5 +49,7 @@ routes.use(
     },
     siteApi,
 );
+
+routes.use("/identity-api", identityApi);
 
 export const apiRoutes = routes;
