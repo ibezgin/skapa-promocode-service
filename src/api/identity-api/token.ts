@@ -11,7 +11,7 @@ interface GetTokenBody {
 }
 
 route.post<any, IResponse<string>, GetTokenBody>(
-    "/token",
+    "/get-connection-token",
     async (req, res, next) => {
         try {
             const secret = req?.body?.secret;
