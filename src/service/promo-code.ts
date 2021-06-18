@@ -15,10 +15,7 @@ export class PromoCodeService extends CRUD<PromoCodeEntity> {
         super(promoCodeRepo);
     }
 
-    public async generate(
-        userId: string,
-        sale: string,
-    ): Promise<PromoCodeEntity> {
+    public async generate(sale: string): Promise<PromoCodeEntity> {
         const generated = this.helper.promoCode.generate();
 
         const generatePromocode = generated[0];
@@ -28,14 +25,10 @@ export class PromoCodeService extends CRUD<PromoCodeEntity> {
         const code = await super.create({
             name: generatePromocode,
             sale,
-            userId,
+            adminId: "game-client",
             createdAt,
         });
         return code;
-    }
-
-    public async findByUserId(userId: string) {
-        return await super.find({ userId });
     }
 
     public async findByName(name: string) {
@@ -44,5 +37,25 @@ export class PromoCodeService extends CRUD<PromoCodeEntity> {
         });
 
         return code;
+    }
+
+    public async findByPaginate(count: number, offset: number) {
+        const take = count || 10;
+        const skip = offset || 0;
+
+        const [result, total] = await super.findAndCount({
+            order: { createdAt: "DESC" },
+            take: take,
+            skip: skip,
+        });
+
+        return {
+            data: result,
+            count: total,
+        };
+    }
+
+    public async findByQrCode(qr: string) {
+        return super.find({ QRCodeId: qr });
     }
 }
