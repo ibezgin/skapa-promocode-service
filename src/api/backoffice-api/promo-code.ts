@@ -23,7 +23,7 @@ interface IDeleteParam {
     id: string;
 }
 
-route.get<any, IResponse<IGetAllResponse>, any, IGetAllParams>(
+route.get<any, IResponse<IGetAllResponse>, any, IGetAllParams, any>(
     "/get-all",
     async (req, res, next) => {
         const { count, offset } = req.query;
@@ -54,7 +54,7 @@ route.get<any, IResponse<IGetAllResponse>, any, IGetAllParams>(
     },
 );
 
-route.post<any, IResponse<boolean>, PromoCodeEntity>(
+route.post<any, IResponse<boolean>, PromoCodeEntity, any, any>(
     "/add",
     async (req, res, next) => {
         const { name, sale, adminId, QRCodeId } = req.body;
@@ -99,55 +99,59 @@ route.post<any, IResponse<boolean>, PromoCodeEntity>(
             return await res.json({
                 state: "error",
                 error: err,
+                value: false,
             });
         }
     },
 );
 
-route.post<any, IResponse<boolean>, { promoCodes: PromoCodeEntity[] }>(
-    "/add-many",
-    async (req, res, next) => {
-        const { promoCodes } = req.body;
+route.post<
+    any,
+    IResponse<boolean>,
+    { promoCodes: PromoCodeEntity[] },
+    any,
+    any
+>("/add-many", async (req, res, next) => {
+    const { promoCodes } = req.body;
 
-        let ids: string[] = [];
+    let ids: string[] = [];
 
-        if (!promoCodes && Boolean(promoCodes.length)) {
-            throw new ErrorHandler(400, `promo codes does not exist`);
+    if (!promoCodes && Boolean(promoCodes.length)) {
+        throw new ErrorHandler(400, `promo codes does not exist`);
+    }
+
+    try {
+        const promocodeInstance = Container.get(PromoCodeService);
+
+        const createdAt = moment.utc().format("X");
+
+        for (const promoCode of promoCodes) {
+            const _promoCode = await promocodeInstance.create({
+                name: promoCode.name,
+                sale: promoCode.sale,
+                adminId: promoCode.adminId,
+                QRCodeId: promoCode.QRCodeId,
+                createdAt,
+            });
+            ids.push(String(_promoCode.id));
         }
 
-        try {
-            const promocodeInstance = Container.get(PromoCodeService);
+        Logger.info(`create new promocodes with ids: ${ids.join()}`);
 
-            const createdAt = moment.utc().format("X");
+        return await res.json({
+            state: "success",
+            error: null,
+            value: true,
+        });
+    } catch (err) {
+        return await res.json({
+            state: "error",
+            error: err,
+        });
+    }
+});
 
-            for (const promoCode of promoCodes) {
-                const _promoCode = await promocodeInstance.create({
-                    name: promoCode.name,
-                    sale: promoCode.sale,
-                    adminId: promoCode.adminId,
-                    QRCodeId: promoCode.QRCodeId,
-                    createdAt,
-                });
-                ids.push(String(_promoCode.id));
-            }
-
-            Logger.info(`create new promocodes with ids: ${ids.join()}`);
-
-            return await res.json({
-                state: "success",
-                error: null,
-                value: true,
-            });
-        } catch (err) {
-            return await res.json({
-                state: "error",
-                error: err,
-            });
-        }
-    },
-);
-
-route.delete<IDeleteParam, IResponse<boolean>>(
+route.delete<IDeleteParam, IResponse<boolean>, any, any, any>(
     "/delete/:id",
     async (req, res, next) => {
         const { id } = req.params;
@@ -177,6 +181,7 @@ route.patch<
     { id: string },
     IResponse<boolean>,
     { sale: number; name: string; QRCodeId: string; adminId: string },
+    any,
     any
 >("/update/:id", async (req, res, next) => {
     const { id } = req.params;
