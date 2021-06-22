@@ -1,21 +1,15 @@
 import { Router } from "express";
 import { Logger } from "../../logger";
 import { PromoCodeService } from "../../service/promo-code";
-import { IResponse } from "src/types/global";
+// import { IResponse } from "src/types/global";
 import { Container } from "typedi";
 import { ErrorHandler } from "../../helper/error-handler";
-import { PromoCodeEntity } from "../../database/entities/promo-code";
+// import { PromoCodeEntity } from "../../database/entities/promo-code";
 import _ from "lodash";
 
 const route = Router();
 
-route.post<
-    any,
-    IResponse<string>,
-    {
-        sale: string;
-    }
->("/generate", async (req, res, next) => {
+route.post("/generate", async (req, res, next) => {
     const { sale } = req.body;
 
     try {
@@ -49,10 +43,7 @@ route.post<
     }
 });
 
-route.get<
-    { qrCode: string },
-    IResponse<Pick<PromoCodeEntity, "sale" | "name">>
->("/qr/:qrCode", async (req, res, next) => {
+route.get("/qr/:qrCode", async (req, res, next) => {
     const { qrCode } = req.params;
 
     try {
