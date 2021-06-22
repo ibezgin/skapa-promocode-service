@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { IResponse } from "src/types/global";
+// import { IResponse } from "src/types/global";
 import { ErrorHandler } from "../../helper/error-handler";
 import { config } from "../../config";
 
 const route = Router();
 
-interface GetTokenBody {
-    secret: string;
-    client_id: "site" | "backoffice" | "game";
-}
+// interface GetTokenBody {
+//     secret: string;
+//     client_id: "site" | "backoffice" | "game";
+// }
 
 route.post("/get-connection-token", async (req, res, next) => {
     try {
